@@ -24,11 +24,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script
-          src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places`}
-          async
-          defer
-        ></script>
+        {/* Add Ola Maps CSS if needed */}
+        <link href="https://maps.ola.com/api/css/v1.0/style.css" rel="stylesheet" />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>

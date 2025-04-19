@@ -10,8 +10,6 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/auth-context"
-import { generateText } from "ai"
-import { openai } from "@ai-sdk/openai"
 
 type Message = {
   id: string
@@ -27,7 +25,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Hello! I'm your farming assistant. How can I help you today?",
+      content: "Hello! I'm your farming assistant powered by Gemini AI. How can I help you today?",
       role: "assistant",
       timestamp: new Date(),
     },
@@ -68,6 +66,29 @@ export default function Chatbot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
+  // Function to call Gemini AI API
+  const generateGeminiResponse = async (prompt: string): Promise<string> => {
+    try {
+      const response = await fetch("/api/gemini", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to generate response")
+      }
+
+      const data = await response.json()
+      return data.text
+    } catch (error) {
+      console.error("Error generating response:", error)
+      return "I'm having trouble processing your request right now. Please try again later or check our FAQ section for common questions."
+    }
+  }
+
   const handleSend = async () => {
     if (!input.trim()) return
 
@@ -93,11 +114,11 @@ export default function Chatbot() {
       }
     }
 
-    // If no quick response, use AI
+    // If no quick response, use Gemini AI
     if (!responseText) {
       try {
         // Create context-aware prompt
-        let prompt = `The user is on a farming website and asks: "${input}". `
+        let prompt = `You are a helpful farming assistant on a website called Farmer's Portal. The user asks: "${input}". `
 
         if (user) {
           prompt += `The user is a ${user.farmer_type} farmer named ${user.full_name}. `
@@ -108,20 +129,10 @@ export default function Chatbot() {
           .slice(-4)
           .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
           .join("\n")
-        prompt += `Recent conversation:\n${recentMessages}\n\nProvide a helpful, concise response about farming.`
 
-        try {
-          const { text } = await generateText({
-            model: openai("gpt-3.5-turbo"),
-            prompt: prompt,
-            maxTokens: 150,
-          })
-          responseText = text
-        } catch (error) {
-          console.error("AI error:", error)
-          responseText =
-            "I'm having trouble processing your request right now. Please try again later or check our FAQ section for common questions."
-        }
+        prompt += `Recent conversation:\n${recentMessages}\n\nProvide a helpful, concise response about farming. Keep your response under 150 words and focus on practical advice.`
+
+        responseText = await generateGeminiResponse(prompt)
       } catch (error) {
         console.error("AI error:", error)
         responseText =
