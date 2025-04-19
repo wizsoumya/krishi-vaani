@@ -67,8 +67,8 @@ export default function SiteHeader() {
           </Link>
         </nav>
         <div className="flex items-center gap-2">
-          <AccessibilityMenu />
-          <LanguageSelector />
+          {/* <AccessibilityMenu />
+          <LanguageSelector /> */}
 
           {loading ? (
             <div className="h-10 w-10 rounded-full bg-gray-100 animate-pulse"></div>
@@ -114,12 +114,12 @@ export default function SiteHeader() {
             </DropdownMenu>
           ) : (
             <div className="hidden md:flex gap-2">
-              <Button variant="outline" asChild>
+              {/* <Button variant="outline" asChild>
                 <Link href="/login">Login</Link>
               </Button>
               <Button className="bg-green-600 hover:bg-green-700" asChild>
                 <Link href="/register">Register</Link>
-              </Button>
+              </Button> */}
             </div>
           )}
 
