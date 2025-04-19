@@ -30,6 +30,13 @@ interface LoanScheme {
   documents: string[]
 }
 
+const NUMBER_FORMAT_OPTIONS = {
+  style: 'decimal',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+  useGrouping: true,
+} as const;
+
 export default function LoanSchemePreview() {
   const [maxInterestRate, setMaxInterestRate] = useState(12)
 
@@ -98,6 +105,10 @@ export default function LoanSchemePreview() {
   // Filter schemes based on interest rate
   const filteredSchemes = loanSchemes.filter((scheme) => scheme.interestRate <= maxInterestRate)
 
+  const formatCurrency = (amount: number) => {
+    return amount.toLocaleString('en-IN', NUMBER_FORMAT_OPTIONS);
+  }
+
   return (
     <Card className="w-full border-green-100">
       <CardHeader>
@@ -152,7 +163,7 @@ export default function LoanSchemePreview() {
                         </Badge>
                       )}
                     </TableCell>
-                    <TableCell className="text-right">₹{scheme.maxAmount.toLocaleString()}</TableCell>
+                    <TableCell className="text-right">₹{formatCurrency(scheme.maxAmount)}</TableCell>
                     <TableCell className="text-right">{scheme.tenure}</TableCell>
                     <TableCell className="text-center">
                       <Dialog>
@@ -174,7 +185,7 @@ export default function LoanSchemePreview() {
                               </div>
                               <div>
                                 <h4 className="font-medium text-sm mb-1">Maximum Amount</h4>
-                                <p>₹{scheme.maxAmount.toLocaleString()}</p>
+                                <p>₹{formatCurrency(scheme.maxAmount)}</p>
                               </div>
                               <div>
                                 <h4 className="font-medium text-sm mb-1">Tenure</h4>
