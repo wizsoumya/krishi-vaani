@@ -42,15 +42,15 @@ export default function Home() {
                     advice.
                   </p>
                 </div>
-                <div className="flex flex-col gap-2 min-[400px]:flex-row">
+                {/* <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button className="bg-green-600 hover:bg-green-700" asChild>
                     <Link href="/register">Get Started</Link>
                   </Button>
                   <Button variant="outline">Learn More</Button>
-                </div>
+                </div> */}
               </div>
               <Image
-                src="/placeholder.svg?height=550&width=550"
+                src="/hero-image.png?height=550&width=550"
                 width={550}
                 height={550}
                 alt="Farming landscape with green fields and modern agricultural equipment"
@@ -550,7 +550,7 @@ export default function Home() {
         </section>
 
         {/* Agricultural Offices Section */}
-        <section className="w-full py-12 md:py-24 bg-green-50">
+        {/* <section className="w-full py-12 md:py-24 bg-green-50">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -598,10 +598,10 @@ export default function Home() {
               </Card>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Call to Action */}
-        <section className="w-full py-12 md:py-24 bg-gradient-to-br from-green-700 to-green-800 text-white">
+        {/* <section className="w-full py-12 md:py-24 bg-gradient-to-br from-green-700 to-green-800 text-white">
           <div className="container px-4 md:px-6">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -621,7 +621,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
 
       <footer className="w-full border-t bg-green-800 text-white py-6">

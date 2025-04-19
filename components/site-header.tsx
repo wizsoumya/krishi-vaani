@@ -62,9 +62,9 @@ export default function SiteHeader() {
           <Link href="/calculators" className="font-medium transition-colors hover:text-green-600">
             Calculators
           </Link>
-          <Link href="/agricultural-offices" className="font-medium transition-colors hover:text-green-600">
+          {/* <Link href="/agricultural-offices" className="font-medium transition-colors hover:text-green-600">
             Offices
-          </Link>
+          </Link> */}
         </nav>
         <div className="flex items-center gap-2">
           {/* <AccessibilityMenu />
