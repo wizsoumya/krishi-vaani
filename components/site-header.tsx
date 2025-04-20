@@ -293,13 +293,13 @@ export default function SiteHeader() {
               >
                 Chat with AI
               </Button>
-              <Link
+              {/* <Link
                 href="/agricultural-offices"
                 className="px-2 py-1 rounded hover:bg-green-50"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Offices
-              </Link>
+              </Link> */}
             </nav>
 
             {!user && (
