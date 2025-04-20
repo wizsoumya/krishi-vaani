@@ -441,7 +441,7 @@ export default function Home() {
                 <CardContent>
                   <div className="flex items-start gap-4">
                     <Image
-                      src="/placeholder.svg?height=80&width=80"
+                      src="/pmkisan.jpg?height=80&width=80"
                       width={80}
                       height={80}
                       alt="PM-KISAN logo"
@@ -470,7 +470,7 @@ export default function Home() {
                 <CardContent>
                   <div className="flex items-start gap-4">
                     <Image
-                      src="/placeholder.svg?height=80&width=80"
+                      src="/soil.jpg?height=80&width=80"
                       width={80}
                       height={80}
                       alt="Soil Health Card logo"
@@ -499,7 +499,7 @@ export default function Home() {
                 <CardContent>
                   <div className="flex items-start gap-4">
                     <Image
-                      src="/placeholder.svg?height=80&width=80"
+                      src="/PMfasal.jpg?height=80&width=80"
                       width={80}
                       height={80}
                       alt="PM Fasal Bima Yojana logo"

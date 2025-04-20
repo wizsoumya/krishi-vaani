@@ -146,7 +146,7 @@ export default function BlogPage() {
                 {/* Regular Articles */}
                 <Card className="overflow-hidden border-green-100">
                   <Image
-                    src="/watering.jpg?height=200&width=400"
+                    src="/Water Conservation Techniques for Summer.jpg?height=200&width=400"
                     width={400}
                     height={200}
                     alt="Water conservation techniques"
@@ -191,7 +191,7 @@ export default function BlogPage() {
 
                 <Card className="overflow-hidden border-green-100">
                   <Image
-                    src="/farming.jpg?height=200&width=400"
+                    src="/organic.jpg?height=200&width=400"
                     width={400}
                     height={200}
                     alt="Organic farming success story"
@@ -235,10 +235,11 @@ export default function BlogPage() {
                 </Card>
 
                 <Card className="overflow-hidden border-green-100">
-                  <Image
-                    src="/farming.jpg?height=200&width=400"
+                <Image
+                    src="/Integrated Pest Management for Cotton.jpg?height=200&width=400"
                     width={400}
                     height={200}
+                    style={{ objectPosition: 'top center' }}
                     alt="Pest management techniques"
                     className="w-full h-48 object-cover"
                   />
@@ -281,9 +282,10 @@ export default function BlogPage() {
 
                 <Card className="overflow-hidden border-green-100">
                   <Image
-                    src="/farming.jpg?height=200&width=400"
+                    src="/Amendments.jpg?height=200&width=400"
                     width={400}
                     height={200}
+                    style={{ objectPosition: 'top center' }}
                     alt="Soil health management"
                     className="w-full h-48 object-cover"
                   />
@@ -325,10 +327,11 @@ export default function BlogPage() {
                 </Card>
 
                 <Card className="overflow-hidden border-green-100">
-                  <Image
-                    src="/farming.jpg?height=200&width=400"
+                <Image
+                    src="/Right Wheat.jpg"  // Path from public folder
                     width={400}
                     height={200}
+                    style={{ objectPosition: 'top center' }}
                     alt="Seed selection guide"
                     className="w-full h-48 object-cover"
                   />
@@ -383,10 +386,11 @@ export default function BlogPage() {
             <TabsContent value="fertilizers">
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 <Card className="overflow-hidden border-green-100">
-                  <Image
-                    src="/farming.jpg?height=200&width=400"
+                <Image
+                    src="/Amendments.jpg?height=200&width=400"
                     width={400}
                     height={200}
+                    style={{ objectPosition: 'top center' }}
                     alt="Soil health management"
                     className="w-full h-48 object-cover"
                   />
@@ -432,10 +436,11 @@ export default function BlogPage() {
             <TabsContent value="seeds">
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 <Card className="overflow-hidden border-green-100">
-                  <Image
-                    src="/farming.jpg?height=200&width=400"
+                <Image
+                    src="/Right Wheat.jpg"  // Path from public folder
                     width={400}
                     height={200}
+                    style={{ objectPosition: 'top center' }}
                     alt="Seed selection guide"
                     className="w-full h-48 object-cover"
                   />
@@ -481,10 +486,11 @@ export default function BlogPage() {
             <TabsContent value="crop-protection">
               <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                 <Card className="overflow-hidden border-green-100">
-                  <Image
-                    src="/farming.jpg?height=200&width=400"
+                <Image
+                    src="/Integrated Pest Management for Cotton.jpg?height=200&width=400"
                     width={400}
                     height={200}
+                    style={{ objectPosition: 'top center' }}
                     alt="Pest management techniques"
                     className="w-full h-48 object-cover"
                   />
