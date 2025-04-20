@@ -1,4 +1,4 @@
-# KrishiVaani - A Modern Farmers' Portal 🌾
+# KrishiVaani (AI) - A Modern Farmers' Portal 🌾
 
 ![Logo](./public/logo.png)
 
@@ -12,9 +12,9 @@ KrishiVaani is a comprehensive digital platform designed to empower farmers with
 
 - **Weather Tracking**: Real-time weather updates and forecasts for better crop planning
 - **Market Price Analysis**: Live market prices and price comparison tools
-- **Agricultural Office Locator**: Interactive map to find nearby agricultural offices
+<!-- - **Agricultural Office Locator**: Interactive map to find nearby agricultural offices -->
 - **Smart Farming Assistant**: AI-powered chat interface using Gemini for farming queries
-- **Multi-language Support**: Accessible in multiple regional languages
+<!-- - **Multi-language Support**: Accessible in multiple regional languages -->
 - **Price Alerts**: Customizable notifications for market price changes
 - **Farming Calculators**:
   - Fertilizer calculator for optimal usage
@@ -31,8 +31,8 @@ KrishiVaani is a comprehensive digital platform designed to empower farmers with
 - **Styling**: Tailwind CSS, Shadcn UI
 - **Database**: Supabase
 - **AI Integration**: Google Gemini
-- **Maps**: Agricultural offices mapping
-- **Authentication**: Secure user management
+  <!-- - **Maps**: Agricultural offices mapping -->
+  <!-- - **Authentication**: Secure user management -->
 - **Deployment**: Vercel
 
 ## 🚀 Live Demo
@@ -45,7 +45,7 @@ Indian farmers face numerous challenges:
 
 - Limited access to real-time market information
 - Difficulty in accessing government schemes
-- Language barriers in accessing agricultural information
+<!-- - Language barriers in accessing agricultural information -->
 - Need for modern farming guidance
 - Weather uncertainty affecting crop planning
 
@@ -56,7 +56,7 @@ KrishiVaani addresses these challenges by providing a unified, accessible platfo
 KrishiVaani serves as a one-stop solution for farmers by:
 
 - Providing real-time market data and price alerts
-- Offering multilingual support for better accessibility
+<!-- - Offering multilingual support for better accessibility -->
 - Integrating AI for personalized farming advice
 - Creating an informative knowledge base
 - Simplifying access to government schemes
@@ -64,14 +64,16 @@ KrishiVaani serves as a one-stop solution for farmers by:
 
 ## 🌐 Accessibility Features
 
-- Multi-language support
-- High contrast mode
+<!-- - Multi-language support
+- High contrast mode -->
+
 - Screen reader compatibility
 - Responsive design for all devices
 - Easy navigation and user-friendly interface
 
 ## 🏗️ Future Roadmap
 
+- Multi-language support
 - Mobile app development
 - Integration with IoT devices for field monitoring
 - Community features for farmer networking
