@@ -1,6 +1,17 @@
+import { Suspense } from "react"
+
+function NotFound() {
+  return (
+    <Suspense>
+      <NotFoundContent />
+    </Suspense>
+  )
+}
+
+export default NotFound
+
 "use client"
 
-import { Suspense } from "react"
 import Link from "next/link"
 import { useSearchParams } from "next/navigation"
 import { ArrowLeft } from "lucide-react"
@@ -22,13 +33,5 @@ function NotFoundContent() {
         </Link>
       </Button>
     </div>
-  )
-}
-
-export default function NotFound() {
-  return (
-    <Suspense>
-      <NotFoundContent />
-    </Suspense>
   )
 }
