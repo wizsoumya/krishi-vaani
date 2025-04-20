@@ -11,7 +11,7 @@ import GeminiChat from "@/components/gemini-chat";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Farmer's Portal - Agricultural Information Hub",
+  title: "KrishiVaani - Agricultural Information Hub",
   description:
     "Complete resource for agricultural information, weather updates, government schemes, and expert advice.",
   generator: "v0.dev",

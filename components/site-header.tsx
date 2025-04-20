@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useState } from "react";
+import Image from "next/image";
 
 export default function SiteHeader() {
   const { user, signOut, loading } = useAuth();
@@ -38,11 +39,18 @@ export default function SiteHeader() {
           <Link
             href="/"
             className="flex items-center gap-2"
-            aria-label="Farmer's Portal Home"
+            aria-label="KrishiVaani Home"
           >
-            <Leaf className="h-6 w-6 text-green-600" aria-hidden="true" />
+            <Image
+              loading="eager"
+              src="/icon.png"
+              alt="KrishiVaani Logo"
+              width={40}
+              height={53}
+            />
+
             <span className="text-xl font-bold text-green-800">
-              Farmer's Portal
+              Krishi<span className="text-[#55330a]">Vaani</span>
             </span>
           </Link>
         </div>

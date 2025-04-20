@@ -60,7 +60,7 @@ export default function LoginPage() {
       } else {
         toast({
           title: "Login successful",
-          description: "Welcome back to Farmer's Portal!",
+          description: "Welcome back to KrishiVaani!",
           variant: "default",
         })
         router.push("/")

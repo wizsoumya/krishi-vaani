@@ -211,7 +211,11 @@ export default function GeminiChat() {
                         <p className="text-sm">{message.content}</p>
                       )}
                       <span className="text-xs opacity-70 mt-1 self-end">
-                        {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                        {message.timestamp.toLocaleTimeString('en-US', { 
+                          hour: "2-digit", 
+                          minute: "2-digit",
+                          hour12: true
+                        })}
                       </span>
                     </div>
                   ))}
