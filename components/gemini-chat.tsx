@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { Bot, Send, X, Maximize, Minimize, MessageSquare } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -19,7 +19,7 @@ type Message = {
   timestamp: Date;
 };
 
-export default function GeminiChat() {
+const GeminiChatComponent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isMinimized, setIsMinimized] = useState(false);
@@ -285,4 +285,12 @@ export default function GeminiChat() {
       )}
     </>
   );
-}
+};
+
+const GeminiChat = () => (
+  <Suspense>
+    <GeminiChatComponent />
+  </Suspense>
+);
+
+export default GeminiChat;
