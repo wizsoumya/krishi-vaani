@@ -1,8 +1,6 @@
 # KrishiVaani - A Modern Farmers' Portal 🌾
 
-<div align="center">
-  <img src="public/logo.jpg" alt="KrishiVaani Logo" width="200"/>
-</div>
+![Logo](./public/logo.png)
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20Site-green)](https://krishivaani.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Built%20with-Next.js%2014-black)](https://nextjs.org/)
