@@ -27,7 +27,7 @@ export default function GeminiChat() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Namaste! I am Kisan Mitra, your farming assistant. How can I help you today?",
+      content: "Namaste! I am Kisan Mitra, your trusted farming assistant. How can I help you today?",
       role: "assistant",
       timestamp: new Date(),
     },
@@ -80,7 +80,7 @@ export default function GeminiChat() {
     setIsLoading(true)
 
     try {
-      let prompt = `You are a helpful farming assistant on Farmer's Portal. The user asks: "${input}". `
+      let prompt = `You are Kisan Mitra, a knowledgeable farming assistant on KrishiVaani. Always identify as Kisan Mitra in your responses. The user asks: "${input}". `
 
       if (user) {
         prompt += `The user is a ${user.farmer_type} farmer named ${user.full_name}. `
