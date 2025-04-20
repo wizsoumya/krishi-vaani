@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Leaf, User, LogOut, Settings } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import LanguageSelector from "@/components/language-selector"
-import AccessibilityMenu from "@/components/accessibility-menu"
-import { useAuth } from "@/contexts/auth-context"
+import Link from "next/link";
+import { Leaf, User, LogOut, Settings } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import LanguageSelector from "@/components/language-selector";
+import AccessibilityMenu from "@/components/accessibility-menu";
+import { useAuth } from "@/contexts/auth-context";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +14,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { useState } from "react"
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useState } from "react";
 
 export default function SiteHeader() {
-  const { user, signOut, loading } = useAuth()
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { user, signOut, loading } = useAuth();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const getInitials = (name: string) => {
     return name
@@ -28,43 +28,84 @@ export default function SiteHeader() {
       .map((part) => part[0])
       .join("")
       .toUpperCase()
-      .substring(0, 2)
-  }
+      .substring(0, 2);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2" aria-label="Farmer's Portal Home">
+          <Link
+            href="/"
+            className="flex items-center gap-2"
+            aria-label="Farmer's Portal Home"
+          >
             <Leaf className="h-6 w-6 text-green-600" aria-hidden="true" />
-            <span className="text-xl font-bold text-green-800">Farmer's Portal</span>
+            <span className="text-xl font-bold text-green-800">
+              Farmer's Portal
+            </span>
           </Link>
         </div>
-        <nav className="hidden md:flex items-center gap-4 text-sm" aria-label="Main Navigation">
-          <Link href="/#weather" className="font-medium transition-colors hover:text-green-600">
+        <nav
+          className="hidden md:flex items-center gap-4 text-sm"
+          aria-label="Main Navigation"
+        >
+          <Link
+            href="/#weather"
+            className="font-medium transition-colors hover:text-green-600"
+          >
             Weather
           </Link>
-          <Link href="/#schemes" className="font-medium transition-colors hover:text-green-600">
+          <Link
+            href="/#schemes"
+            className="font-medium transition-colors hover:text-green-600"
+          >
             Schemes
           </Link>
-          <Link href="/#market-prices" className="font-medium transition-colors hover:text-green-600">
+          <Link
+            href="/#market-prices"
+            className="font-medium transition-colors hover:text-green-600"
+          >
             Market Prices
           </Link>
-          <Link href="/#crop-calendar" className="font-medium transition-colors hover:text-green-600">
+          <Link
+            href="/#crop-calendar"
+            className="font-medium transition-colors hover:text-green-600"
+          >
             Crop Calendar
           </Link>
-          <Link href="/#loans" className="font-medium transition-colors hover:text-green-600">
+          <Link
+            href="/#loans"
+            className="font-medium transition-colors hover:text-green-600"
+          >
             Loans
           </Link>
-          <Link href="/blog" className="font-medium transition-colors hover:text-green-600">
+          <Link
+            href="/blog"
+            className="font-medium transition-colors hover:text-green-600"
+          >
             Blog
           </Link>
-          <Link href="/calculators" className="font-medium transition-colors hover:text-green-600">
+          <Link
+            href="/calculators"
+            className="font-medium transition-colors hover:text-green-600"
+          >
             Calculators
           </Link>
           {/* <Link href="/agricultural-offices" className="font-medium transition-colors hover:text-green-600">
             Offices
           </Link> */}
+          <Button
+            variant="default"
+            className="font-medium text-sm transition-colors hover:text-green-600"
+            onClick={() => {
+              const params = new URLSearchParams(window.location.search);
+              params.set("chat-bot", "1");
+              window.history.pushState(null, "", `?${params.toString()}`);
+            }}
+          >
+            Chat with AI
+          </Button>
         </nav>
         <div className="flex items-center gap-2">
           {/* <AccessibilityMenu />
@@ -75,7 +116,11 @@ export default function SiteHeader() {
           ) : user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-10 w-10 rounded-full" aria-label="User menu">
+                <Button
+                  variant="ghost"
+                  className="relative h-10 w-10 rounded-full"
+                  aria-label="User menu"
+                >
                   <Avatar className="h-10 w-10 border border-green-200">
                     <AvatarFallback className="bg-green-100 text-green-800">
                       {user.full_name ? getInitials(user.full_name) : "U"}
@@ -86,27 +131,40 @@ export default function SiteHeader() {
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.full_name}</p>
-                    <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                    <p className="text-sm font-medium leading-none">
+                      {user.full_name}
+                    </p>
+                    <p className="text-xs leading-none text-muted-foreground">
+                      {user.email}
+                    </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild>
-                    <Link href="/profile" className="cursor-pointer w-full flex items-center">
+                    <Link
+                      href="/profile"
+                      className="cursor-pointer w-full flex items-center"
+                    >
                       <User className="mr-2 h-4 w-4" />
                       <span>Profile</span>
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/settings" className="cursor-pointer w-full flex items-center">
+                    <Link
+                      href="/settings"
+                      className="cursor-pointer w-full flex items-center"
+                    >
                       <Settings className="mr-2 h-4 w-4" />
                       <span>Settings</span>
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer text-red-600 focus:text-red-600" onClick={() => signOut()}>
+                <DropdownMenuItem
+                  className="cursor-pointer text-red-600 focus:text-red-600"
+                  onClick={() => signOut()}
+                >
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
@@ -214,6 +272,19 @@ export default function SiteHeader() {
               >
                 Calculators
               </Link>
+              <Button
+                variant="default"
+                className="px-2 py-1 rounded hover:bg-green-50 text-left font-normal w-full"
+                data-gemini-chat-toggle
+                onClick={() => {
+                  const params = new URLSearchParams(window.location.search);
+                  params.set("chat-bot", "1");
+                  window.history.pushState(null, "", `?${params.toString()}`);
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Chat with AI
+              </Button>
               <Link
                 href="/agricultural-offices"
                 className="px-2 py-1 rounded hover:bg-green-50"
@@ -225,21 +296,27 @@ export default function SiteHeader() {
 
             {!user && (
               <div className="flex gap-2 pt-2 border-t">
-                <Button variant="outline" asChild className="flex-1">
+                {/* <Button variant="outline" asChild className="flex-1">
                   <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
                     Login
                   </Link>
                 </Button>
-                <Button className="bg-green-600 hover:bg-green-700 flex-1" asChild>
-                  <Link href="/register" onClick={() => setMobileMenuOpen(false)}>
+                <Button
+                  className="bg-green-600 hover:bg-green-700 flex-1"
+                  asChild
+                >
+                  <Link
+                    href="/register"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
                     Register
                   </Link>
-                </Button>
+                </Button> */}
               </div>
             )}
           </div>
         </div>
       )}
     </header>
-  )
+  );
 }

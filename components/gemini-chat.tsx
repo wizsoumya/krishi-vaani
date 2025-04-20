@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { Bot, Send, X, Maximize, Minimize, MessageSquare } from "lucide-react"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { useSearchParams, useRouter } from 'next/navigation'
 import { Button } from "@/components/ui/button"
 import { Card, CardFooter, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -19,7 +20,8 @@ type Message = {
 }
 
 export default function GeminiChat() {
-  const [isOpen, setIsOpen] = useState(false)
+  const router = useRouter()
+  const searchParams = useSearchParams()
   const [isMinimized, setIsMinimized] = useState(false)
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<Message[]>([
@@ -34,6 +36,8 @@ export default function GeminiChat() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const { user } = useAuth()
+
+  const isOpen = searchParams.get('chat-bot') === '1'
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -121,7 +125,13 @@ export default function GeminiChat() {
   }
 
   const toggleChat = () => {
-    setIsOpen(!isOpen)
+    const params = new URLSearchParams(searchParams.toString())
+    if (isOpen) {
+      params.delete('chat-bot')
+    } else {
+      params.set('chat-bot', '1')
+    }
+    router.push(`?${params.toString()}`)
     setIsMinimized(false)
   }
 
