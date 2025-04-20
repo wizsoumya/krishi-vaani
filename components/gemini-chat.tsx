@@ -1,47 +1,48 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { Bot, Send, X, Maximize, Minimize, MessageSquare } from "lucide-react"
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { Button } from "@/components/ui/button"
-import { Card, CardFooter, CardHeader } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { cn } from "@/lib/utils"
-import { useAuth } from "@/contexts/auth-context"
+import { useState, useRef, useEffect } from "react";
+import { Bot, Send, X, Maximize, Minimize, MessageSquare } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { useSearchParams, useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card, CardFooter, CardHeader } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@/contexts/auth-context";
 
 type Message = {
-  id: string
-  content: string
-  role: "user" | "assistant"
-  timestamp: Date
-}
+  id: string;
+  content: string;
+  role: "user" | "assistant";
+  timestamp: Date;
+};
 
 export default function GeminiChat() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const [isMinimized, setIsMinimized] = useState(false)
-  const [input, setInput] = useState("")
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
-      id: "1",
-      content: "Namaste! I am Kisan Mitra, your trusted farming assistant. How can I help you today?",
+      id: "welcome",
+      content:
+        "Namaste! I am Kisan Mitra, your trusted farming assistant. How can I help you today?",
       role: "assistant",
       timestamp: new Date(),
     },
-  ])
-  const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
-  const { user } = useAuth()
+  ]);
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { user } = useAuth();
 
-  const isOpen = searchParams.get('chat-bot') === '1'
+  const isOpen = searchParams.get("chat-bot") === "1";
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
-  }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   const generateGeminiResponse = async (prompt: string): Promise<string> => {
     try {
@@ -51,103 +52,106 @@ export default function GeminiChat() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ prompt }),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to generate response")
+        throw new Error("Failed to generate response");
       }
 
-      const data = await response.json()
-      return data.text
+      const data = await response.json();
+      return data.text;
     } catch (error) {
-      console.error("Error generating response:", error)
-      return "I'm having trouble processing your request right now. Please try again later."
+      console.error("Error generating response:", error);
+      return "I'm having trouble processing your request right now. Please try again later.";
     }
-  }
+  };
 
   const handleSend = async () => {
-    if (!input.trim()) return
+    if (!input.trim()) return;
+
+    const messageId = crypto.randomUUID(); // Using crypto.randomUUID() for stable IDs
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: messageId,
       content: input,
       role: "user",
       timestamp: new Date(),
-    }
+    };
 
-    setMessages((prev) => [...prev, userMessage])
-    setInput("")
-    setIsLoading(true)
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
 
     try {
-      let prompt = `You are Kisan Mitra, a knowledgeable farming assistant on KrishiVaani. Always identify as Kisan Mitra in your responses. The user asks: "${input}". `
+      let prompt = `You are Kisan Mitra, a knowledgeable farming assistant on KrishiVaani. Always identify as Kisan Mitra in your responses. The user asks: "${input}". `;
 
       if (user) {
-        prompt += `The user is a ${user.farmer_type} farmer named ${user.full_name}. `
+        prompt += `The user is a ${user.farmer_type} farmer named ${user.full_name}. `;
       }
 
       const recentMessages = messages
         .slice(-4)
         .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
-        .join("\n")
+        .join("\n");
 
-      prompt += `Recent conversation:\n${recentMessages}\n\nProvide a helpful, concise response about farming. Focus on practical advice.`
+      prompt += `Recent conversation:\n${recentMessages}\n\nProvide a helpful, concise response about farming. Focus on practical advice.`;
 
-      const responseText = await generateGeminiResponse(prompt)
+      const responseText = await generateGeminiResponse(prompt);
 
       const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: crypto.randomUUID(),
         content: responseText,
         role: "assistant",
         timestamp: new Date(),
-      }
+      };
 
-      setMessages((prev) => [...prev, botMessage])
+      setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error("Error:", error)
+      console.error("Error:", error);
       const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: "I'm having trouble processing your request right now. Please try again later.",
+        id: crypto.randomUUID(),
+        content:
+          "I'm having trouble processing your request right now. Please try again later.",
         role: "assistant",
         timestamp: new Date(),
-      }
-      setMessages((prev) => [...prev, errorMessage])
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
+      e.preventDefault();
+      handleSend();
     }
-  }
+  };
 
   const toggleChat = () => {
-    const params = new URLSearchParams(searchParams.toString())
+    const params = new URLSearchParams(searchParams.toString());
     if (isOpen) {
-      params.delete('chat-bot')
+      params.delete("chat-bot");
     } else {
-      params.set('chat-bot', '1')
+      params.set("chat-bot", "1");
     }
-    router.push(`?${params.toString()}`)
-    setIsMinimized(false)
-  }
+    router.push(`?${params.toString()}`);
+    setIsMinimized(false);
+  };
 
   const toggleMinimize = () => {
-    setIsMinimized(!isMinimized)
-  }
+    setIsMinimized(!isMinimized);
+  };
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     if (isOpen && !isMinimized && inputRef.current) {
-      inputRef.current.focus()
+      inputRef.current.focus();
     }
-  }, [isOpen, isMinimized])
+  }, [isOpen, isMinimized]);
 
   return (
     <>
@@ -181,9 +185,19 @@ export default function GeminiChat() {
                 onClick={toggleMinimize}
                 aria-label={isMinimized ? "Maximize chat" : "Minimize chat"}
               >
-                {isMinimized ? <Maximize className="h-4 w-4" /> : <Minimize className="h-4 w-4" />}
+                {isMinimized ? (
+                  <Maximize className="h-4 w-4" />
+                ) : (
+                  <Minimize className="h-4 w-4" />
+                )}
               </Button>
-              <Button variant="ghost" size="icon" className="h-7 w-7" onClick={toggleChat} aria-label="Close chat">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-7 w-7"
+                onClick={toggleChat}
+                aria-label="Close chat"
+              >
                 <X className="h-4 w-4" />
               </Button>
             </div>
@@ -198,7 +212,9 @@ export default function GeminiChat() {
                       key={message.id}
                       className={cn(
                         "flex flex-col max-w-[80%] rounded-lg p-3",
-                        message.role === "user" ? "ml-auto bg-green-600 text-white" : "bg-gray-100 text-gray-800"
+                        message.role === "user"
+                          ? "ml-auto bg-green-600 text-white"
+                          : "bg-gray-100 text-gray-800"
                       )}
                     >
                       {message.role === "assistant" ? (
@@ -211,10 +227,10 @@ export default function GeminiChat() {
                         <p className="text-sm">{message.content}</p>
                       )}
                       <span className="text-xs opacity-70 mt-1 self-end">
-                        {message.timestamp.toLocaleTimeString('en-US', { 
-                          hour: "2-digit", 
+                        {message.timestamp.toLocaleTimeString("en-US", {
+                          hour: "2-digit",
                           minute: "2-digit",
-                          hour12: true
+                          hour12: true,
                         })}
                       </span>
                     </div>
@@ -268,5 +284,5 @@ export default function GeminiChat() {
         </Card>
       )}
     </>
-  )
+  );
 }
