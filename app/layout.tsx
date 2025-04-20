@@ -15,6 +15,9 @@ export const metadata = {
   description:
     "Complete resource for agricultural information, weather updates, government schemes, and expert advice.",
   generator: "v0.dev",
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({
