@@ -13,8 +13,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "GEMINI_API_KEY is not configured" }, { status: 500 })
     }
 
-    // Call Gemini API
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent", {
+    // Call Gemini API with the correct endpoint and model
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

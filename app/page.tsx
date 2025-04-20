@@ -20,7 +20,7 @@ import MarketPricePreview from "@/components/market-price-preview"
 import CropCalendarPreview from "@/components/crop-calendar-preview"
 import LoanSchemePreview from "@/components/loan-scheme-preview"
 import SiteHeader from "@/components/site-header"
-import Chatbot from "@/components/chatbot"
+import GeminiChat from "@/components/gemini-chat"
 
 export default function Home() {
   return (
@@ -746,7 +746,7 @@ export default function Home() {
       </footer>
 
       {/* Chatbot */}
-      <Chatbot />
+      <GeminiChat />
     </div>
   )
 }

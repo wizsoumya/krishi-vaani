@@ -1,9 +1,9 @@
 "use client"
 
-import type React from "react"
-
 import { useState, useRef, useEffect } from "react"
 import { Bot, Send, X, Maximize, Minimize, MessageSquare } from "lucide-react"
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Button } from "@/components/ui/button"
 import { Card, CardFooter, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -18,14 +18,14 @@ type Message = {
   timestamp: Date
 }
 
-export default function Chatbot() {
+export default function GeminiChat() {
   const [isOpen, setIsOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
   const [input, setInput] = useState("")
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
-      content: "Hello! I'm your farming assistant powered by Gemini AI. How can I help you today?",
+      content: "Namaste! I am Kisan Mitra, your farming assistant. How can I help you today?",
       role: "assistant",
       timestamp: new Date(),
     },
@@ -35,38 +35,10 @@ export default function Chatbot() {
   const inputRef = useRef<HTMLInputElement>(null)
   const { user } = useAuth()
 
-  // Predefined responses for common questions
-  const quickResponses: Record<string, string> = {
-    hello: "Hello! How can I assist you with farming today?",
-    hi: "Hi there! How can I help with your agricultural needs?",
-    help: "I can help you with information about crops, weather, market prices, government schemes, and more. What would you like to know?",
-    weather:
-      "You can check the current weather and forecast in the Weather section. Would you like me to direct you there?",
-    prices:
-      "You can find the latest market prices in the Market Prices section. Would you like me to show you how to use the price comparison tool?",
-    schemes:
-      "There are several government schemes available for farmers. The main ones are PM-KISAN, Soil Health Card, and PM Fasal Bima Yojana. Would you like more details on any of these?",
-    fertilizer:
-      "We have a fertilizer calculator that can help you determine the right amount of fertilizer for your crops. Would you like to use it?",
-    revenue:
-      "Our revenue calculator can help you estimate potential earnings from your crops. Would you like to try it?",
-  }
-
-  useEffect(() => {
-    scrollToBottom()
-  }, [messages])
-
-  useEffect(() => {
-    if (isOpen && !isMinimized && inputRef.current) {
-      inputRef.current.focus()
-    }
-  }, [isOpen, isMinimized])
-
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
-  // Function to call Gemini AI API
   const generateGeminiResponse = async (prompt: string): Promise<string> => {
     try {
       const response = await fetch("/api/gemini", {
@@ -85,7 +57,7 @@ export default function Chatbot() {
       return data.text
     } catch (error) {
       console.error("Error generating response:", error)
-      return "I'm having trouble processing your request right now. Please try again later or check our FAQ section for common questions."
+      return "I'm having trouble processing your request right now. Please try again later."
     }
   }
 
@@ -103,45 +75,22 @@ export default function Chatbot() {
     setInput("")
     setIsLoading(true)
 
-    // Check for quick responses first
-    const lowerInput = input.toLowerCase()
-    let responseText = ""
+    try {
+      let prompt = `You are a helpful farming assistant on Farmer's Portal. The user asks: "${input}". `
 
-    for (const [key, response] of Object.entries(quickResponses)) {
-      if (lowerInput.includes(key)) {
-        responseText = response
-        break
+      if (user) {
+        prompt += `The user is a ${user.farmer_type} farmer named ${user.full_name}. `
       }
-    }
 
-    // If no quick response, use Gemini AI
-    if (!responseText) {
-      try {
-        // Create context-aware prompt
-        let prompt = `You are a helpful farming assistant on a website called Farmer's Portal. The user asks: "${input}". `
+      const recentMessages = messages
+        .slice(-4)
+        .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
+        .join("\n")
 
-        if (user) {
-          prompt += `The user is a ${user.farmer_type} farmer named ${user.full_name}. `
-        }
+      prompt += `Recent conversation:\n${recentMessages}\n\nProvide a helpful, concise response about farming. Focus on practical advice.`
 
-        // Add recent conversation context
-        const recentMessages = messages
-          .slice(-4)
-          .map((m) => `${m.role === "user" ? "User" : "Assistant"}: ${m.content}`)
-          .join("\n")
+      const responseText = await generateGeminiResponse(prompt)
 
-        prompt += `Recent conversation:\n${recentMessages}\n\nProvide a helpful, concise response about farming. Keep your response under 150 words and focus on practical advice.`
-
-        responseText = await generateGeminiResponse(prompt)
-      } catch (error) {
-        console.error("AI error:", error)
-        responseText =
-          "I'm having trouble processing your request right now. Please try again later or check our FAQ section for common questions."
-      }
-    }
-
-    // Add bot response
-    setTimeout(() => {
       const botMessage: Message = {
         id: (Date.now() + 1).toString(),
         content: responseText,
@@ -150,8 +99,18 @@ export default function Chatbot() {
       }
 
       setMessages((prev) => [...prev, botMessage])
+    } catch (error) {
+      console.error("Error:", error)
+      const errorMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        content: "I'm having trouble processing your request right now. Please try again later.",
+        role: "assistant",
+        timestamp: new Date(),
+      }
+      setMessages((prev) => [...prev, errorMessage])
+    } finally {
       setIsLoading(false)
-    }, 500) // Small delay to make it feel more natural
+    }
   }
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -170,31 +129,39 @@ export default function Chatbot() {
     setIsMinimized(!isMinimized)
   }
 
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  useEffect(() => {
+    if (isOpen && !isMinimized && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [isOpen, isMinimized])
+
   return (
     <>
-      {/* Chat button */}
       {!isOpen && (
         <Button
           onClick={toggleChat}
           className="fixed bottom-6 right-6 rounded-full w-14 h-14 shadow-lg bg-green-600 hover:bg-green-700 p-0 z-50"
-          aria-label="Open chat assistant"
+          aria-label="Open Kisan Mitra assistant"
         >
           <MessageSquare className="h-6 w-6 text-white" />
         </Button>
       )}
 
-      {/* Chat window */}
       {isOpen && (
         <Card
           className={cn(
             "fixed bottom-6 right-6 w-80 md:w-96 shadow-xl z-50 border-green-200 transition-all duration-300",
-            isMinimized ? "h-14" : "h-[500px]",
+            isMinimized ? "h-14" : "h-[500px]"
           )}
         >
           <CardHeader className="p-3 border-b flex flex-row items-center justify-between bg-green-50">
             <div className="flex items-center">
               <Bot className="h-5 w-5 text-green-600 mr-2" />
-              <h3 className="font-medium text-green-800">Farming Assistant</h3>
+              <h3 className="font-medium text-green-800">Kisan Mitra</h3>
             </div>
             <div className="flex items-center gap-1">
               <Button
@@ -221,10 +188,18 @@ export default function Chatbot() {
                       key={message.id}
                       className={cn(
                         "flex flex-col max-w-[80%] rounded-lg p-3",
-                        message.role === "user" ? "ml-auto bg-green-600 text-white" : "bg-gray-100 text-gray-800",
+                        message.role === "user" ? "ml-auto bg-green-600 text-white" : "bg-gray-100 text-gray-800"
                       )}
                     >
-                      <p className="text-sm">{message.content}</p>
+                      {message.role === "assistant" ? (
+                        <div className="prose prose-sm max-w-none">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {message.content}
+                          </ReactMarkdown>
+                        </div>
+                      ) : (
+                        <p className="text-sm">{message.content}</p>
+                      )}
                       <span className="text-xs opacity-70 mt-1 self-end">
                         {message.timestamp.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
                       </span>
@@ -259,7 +234,7 @@ export default function Chatbot() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Type your message..."
+                    placeholder="Ask me anything about farming..."
                     className="flex-1"
                     disabled={isLoading}
                   />
