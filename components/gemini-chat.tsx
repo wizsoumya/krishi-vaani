@@ -148,6 +148,12 @@ const GeminiChatComponent = () => {
   }, [messages]);
 
   useEffect(() => {
+    if (isOpen && !isMinimized && inputRef.current && messages.length > 0) {
+      inputRef.current.focus();
+    }
+  }, [messages, isOpen, isMinimized]);
+
+  useEffect(() => {
     if (isOpen && !isMinimized && inputRef.current) {
       inputRef.current.focus();
     }
@@ -260,6 +266,7 @@ const GeminiChatComponent = () => {
               <CardFooter className="p-3 border-t">
                 <div className="flex w-full items-center space-x-2">
                   <Input
+                    autoFocus
                     ref={inputRef}
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
